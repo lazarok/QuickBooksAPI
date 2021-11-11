@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickBooks.Application.Models.QBFC.Customer.GetCustomerById
+namespace QuickBooks.Application.Models.QBFC.Customer.GetCustomerByName
 {
-    public record GetCustomerByIdResponse
+    public record GetCustomerByNameResponse
     {
         public string Id { get; set; }
         public string Name { get; set; }

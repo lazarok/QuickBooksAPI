@@ -58,13 +58,13 @@ namespace QuickBooks.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(GetCustomerByIdEventDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AddCustomerEventDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddCustomerAsync(
           AddCustomerEventCommand command,
           CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(command, cancellationToken));
+            return StatusCode(StatusCodes.Status201Created, await Mediator.Send(command, cancellationToken));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace QuickBooks.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(GetCustomerByIdEventDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UpdateCustomerEventDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateCustomerAsync(
