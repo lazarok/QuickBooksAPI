@@ -7,5 +7,8 @@ using System.Threading.Tasks;
 
 namespace QuickBooks.Application.Handlers.Customer.GetAllCustomerEvent
 {
-    public record GetAllCustomerEventDto(string Name, string Phone);
+    public record GetAllCustomerEventDto(
+        string id,
+        string name, 
+        string phone);
 }

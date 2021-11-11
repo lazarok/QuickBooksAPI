@@ -88,6 +88,12 @@ namespace QuickBooks.API.Extensions
             return services;
         }
 
+        public static IServiceCollection AddLocalizationExtension(this IServiceCollection services)
+        {
+            services.AddLocalization(options => options.ResourcesPath = "Localization");
+            return services;
+        }
+
         private static OpenApiInfo CreateMetaInfoApiVersion(ApiVersionDescription description)
         {
             var info = new OpenApiInfo

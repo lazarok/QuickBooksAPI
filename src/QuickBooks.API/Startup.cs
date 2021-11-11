@@ -37,11 +37,16 @@ namespace QuickBooks.API
               .AddApplication()
               .AddInfrastructure();
 
-            services.AddControllers();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
 
             services
                 .AddApiVersioningExtension()
-                .AddSwaggerExtension();
+                .AddSwaggerExtension()
+                .AddLocalizationExtension();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +57,7 @@ namespace QuickBooks.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerExtension(_services);
-            }                
+            }
 
             app.UseHttpsRedirection();
 
@@ -61,6 +66,8 @@ namespace QuickBooks.API
             app.UseAuthorization();
 
             app.UseErrorHandlingMiddleware();
+
+            app.UseLocalizationExtension();
 
             app.UseEndpoints(endpoints =>
             {

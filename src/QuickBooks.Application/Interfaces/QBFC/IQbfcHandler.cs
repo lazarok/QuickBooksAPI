@@ -2,6 +2,6 @@
 {
     public interface IQbfcHandler
     {
-        TResponse Execute<TResponse>(IQbfcMessage<TResponse> qbfcMessage);
+        TResponse Execute<TRequest,TResponse>(TRequest request, IQbfcMessage<TRequest,TResponse> qbfcMessage);
     }
 }

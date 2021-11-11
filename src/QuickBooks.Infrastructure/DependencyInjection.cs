@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QuickBooks.Application;
 using QuickBooks.Application.Interfaces.QBFC;
-using QuickBooks.Application.Interfaces.QBFC.Custom;
+using QuickBooks.Application.Interfaces.QBFC.Customer;
 using QuickBooks.Infrastructure.QBFC;
-using QuickBooks.Infrastructure.QBFC.Customer.GetAllCustomer;
+using QuickBooks.Infrastructure.QBFC.Customer;
 using System;
 
 namespace QuickBooks.Infrastructure
@@ -15,6 +15,7 @@ namespace QuickBooks.Infrastructure
             services.AddTransient<IQbfcHandler, QbfcHandler>();
 
             services.AddTransient<IGetAllCustomerQbfcMessage, GetAllCustomerQbfcMessage>();
+            services.AddTransient<IGetCustomerByIdQbfcMessage, GetCustomerByIdQbfcMessage>();
 
             return services;
         }

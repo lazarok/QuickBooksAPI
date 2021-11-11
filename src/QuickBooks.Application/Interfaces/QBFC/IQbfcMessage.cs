@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace QuickBooks.Application.Interfaces.QBFC
 {
-    public interface IQbfcMessage<TResponse>
+    public interface IQbfcMessage<TRequest,TResponse>
     {
-        void BuildQueryRequest(IMsgSetRequest requestMsgSet);
+        void BuildQueryRequest(TRequest request, IMsgSetRequest requestMsgSet);
         TResponse WalkQueryResponse(IMsgSetResponse responseMsgSet);
     }
 }

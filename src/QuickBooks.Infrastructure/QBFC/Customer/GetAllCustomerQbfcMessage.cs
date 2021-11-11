@@ -1,14 +1,14 @@
 ﻿using Interop.QBFC15;
 using QuickBooks.Application.Interfaces.QBFC;
-using QuickBooks.Application.Interfaces.QBFC.Custom;
-using QuickBooks.Application.Models.QBFC.Customer;
+using QuickBooks.Application.Interfaces.QBFC.Customer;
+using QuickBooks.Application.Models.QBFC.Customer.GetAllCustomer;
 using System.Collections.Generic;
 
-namespace QuickBooks.Infrastructure.QBFC.Customer.GetAllCustomer
+namespace QuickBooks.Infrastructure.QBFC.Customer
 {
-    public class GetAllCustomerQbfcMessage : IGetAllCustomerQbfcMessage, IQbfcMessage<IEnumerable<GetAllCustomerResponse>>
+    public class GetAllCustomerQbfcMessage : IGetAllCustomerQbfcMessage, IQbfcMessage<GetAllCustomerRequest,IEnumerable<GetAllCustomerResponse>>
     {
-        public void BuildQueryRequest(IMsgSetRequest requestMsgSet)
+        public void BuildQueryRequest(GetAllCustomerRequest request, IMsgSetRequest requestMsgSet)
         {
             ICustomerQuery CustomerQueryRq = requestMsgSet.AppendCustomerQueryRq();
             ////Set attributes
@@ -153,7 +153,8 @@ namespace QuickBooks.Infrastructure.QBFC.Customer.GetAllCustomer
 
             ////Go through all the elements of ICustomerRetList
             ////Get value of ListID
-            string ListID7497 = customerRet.ListID.GetValue();
+            string listID7497 = customerRet.ListID.GetValue();
+            result.Id = listID7497;
             ////Get value of TimeCreated
             //DateTime TimeCreated7498 = (DateTime)CustomerRet.TimeCreated.GetValue();
             ////Get value of TimeModified
@@ -161,8 +162,8 @@ namespace QuickBooks.Infrastructure.QBFC.Customer.GetAllCustomer
             ////Get value of EditSequence
             //string EditSequence7500 = (string)CustomerRet.EditSequence.GetValue();
             ////Get value of Name
-            string Name7501 = customerRet.Name.GetValue();
-            result.Name = Name7501;
+            string name7501 = customerRet.Name.GetValue();
+            result.Name = name7501;
             ////Get value of FullName
             //string FullName7502 = (string)CustomerRet.FullName.GetValue();
             ////Get value of IsActive
@@ -457,8 +458,8 @@ namespace QuickBooks.Infrastructure.QBFC.Customer.GetAllCustomer
             //Get value of Phone
             if (customerRet.Phone != null)
             {
-                string Phone7558 = (string)customerRet.Phone.GetValue();
-                result.Phone = Phone7558;
+                string phone7558 = (string)customerRet.Phone.GetValue();
+                result.Phone = phone7558;
             }
             ////Get value of AltPhone
             //if (CustomerRet.AltPhone != null)

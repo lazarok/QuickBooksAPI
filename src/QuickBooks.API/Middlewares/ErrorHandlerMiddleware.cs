@@ -34,7 +34,7 @@ namespace QuickBooks.API.Middlewares
                 {
                     case Application.Exceptions.ApiException e:
                         // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response.StatusCode = (int)e.StatusCode;
                         break;
                     case ValidationException e:
                         // custom application error

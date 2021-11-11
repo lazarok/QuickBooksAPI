@@ -7,7 +7,9 @@ namespace QuickBooks.Infrastructure.QBFC
 {
     public class QbfcHandler : IQbfcHandler
     {
-        public TResponse Execute<TResponse>(IQbfcMessage<TResponse> qbfcMessage)
+        public TResponse Execute<TRequest,TResponse>(
+            TRequest request, 
+            IQbfcMessage<TRequest,TResponse> qbfcMessage)
         {
             bool sessionBegun = false;
             bool connectionOpen = false;
@@ -19,10 +21,10 @@ namespace QuickBooks.Infrastructure.QBFC
                 sessionManager = new QBSessionManager();
 
                 //Create the message set request object to hold our request
-                IMsgSetRequest requestMsgSet = sessionManager.CreateMsgSetRequest("US", 15, 0);
+                IMsgSetRequest requestMsgSet = sessionManager.CreateMsgSetRequest("US", 13, 0);
                 requestMsgSet.Attributes.OnError = ENRqOnError.roeContinue;
 
-                qbfcMessage.BuildQueryRequest(requestMsgSet);
+                qbfcMessage.BuildQueryRequest(request, requestMsgSet);
 
                 //Connect to QuickBooks and begin a session
                 sessionManager.OpenConnection("", "QuickBooks API");
