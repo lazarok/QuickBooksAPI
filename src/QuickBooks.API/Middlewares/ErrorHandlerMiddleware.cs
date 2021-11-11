@@ -6,16 +6,20 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using QuickBooks.Application.Exceptions;
+using Microsoft.Extensions.Localization;
+using QuickBooks.Resources.Infrastructure;
 
 namespace QuickBooks.API.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IStringLocalizer<I18n> _localizer;
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+        public ErrorHandlerMiddleware(RequestDelegate next, IStringLocalizer<I18n> localizer)
         {
             _next = next;
+            _localizer = localizer;
         }
 
         public async Task Invoke(HttpContext context)
@@ -32,7 +36,7 @@ namespace QuickBooks.API.Middlewares
 
                 switch (error)
                 {
-                    case Application.Exceptions.ApiException e:
+                    case ApiException e:
                         // custom application error
                         response.StatusCode = (int)e.StatusCode;
                         break;
@@ -47,6 +51,8 @@ namespace QuickBooks.API.Middlewares
                         break;
                     default:
                         // unhandled error
+                        responseModel.Message = _localizer["UnexpectedError"];
+                        responseModel.Errors = new List<string>() { error?.Message };
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }

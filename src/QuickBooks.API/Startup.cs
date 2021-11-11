@@ -65,9 +65,9 @@ namespace QuickBooks.API
 
             app.UseAuthorization();
 
-            app.UseErrorHandlingMiddleware();
-
             app.UseLocalizationExtension();
+
+            app.UseErrorHandlingMiddleware();           
 
             app.UseEndpoints(endpoints =>
             {

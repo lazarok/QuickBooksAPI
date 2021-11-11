@@ -25,5 +25,22 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:QuickBooks.API.Controllers.v1.CustomersController.AddCustomerAsync(QuickBooks.Application.Handlers.Customer.AddCustomerEvent.AddCustomerEventCommand,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QuickBooks.API.Controllers.v1.CustomersController.UpdateCustomerAsync(System.String,QuickBooks.Application.Parameters.UpdateCustomerEventParameter,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="parameter"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

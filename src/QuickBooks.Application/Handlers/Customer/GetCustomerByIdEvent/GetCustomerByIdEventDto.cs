@@ -9,5 +9,6 @@ namespace QuickBooks.Application.Handlers.Customer.GetCustomerByIdEvent
     public record GetCustomerByIdEventDto(
         string Id,
         string Name,
-        string Phone);
+        string Phone,
+        string EditSequence);
 }

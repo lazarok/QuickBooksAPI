@@ -16,6 +16,8 @@ namespace QuickBooks.Infrastructure
 
             services.AddTransient<IGetAllCustomerQbfcMessage, GetAllCustomerQbfcMessage>();
             services.AddTransient<IGetCustomerByIdQbfcMessage, GetCustomerByIdQbfcMessage>();
+            services.AddTransient<IAddCustomerQbfcMessage, AddCustomerQbfcMessage>();
+            services.AddTransient<IUpdateCustomerQbfcMessage, UpdateCustomerQbfcMessage>();
 
             return services;
         }

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using QuickBooks.Application.Filters;
 using QuickBooks.Application.Interfaces.QBFC;
 using QuickBooks.Application.Interfaces.QBFC.Customer;
 using QuickBooks.Application.Models.QBFC.Customer.GetAllCustomer;
+using QuickBooks.Application.Parameters;
 using QuickBooks.Application.Wrappers;
 using System.Collections.Generic;
 using System.Threading;

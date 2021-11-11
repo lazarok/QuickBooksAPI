@@ -456,10 +456,10 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
             //    }
             //}
             //Get value of Phone
-            if (customerRet.Phone != null)
+            if (customerRet.CompanyName != null)
             {
-                string phone7558 = (string)customerRet.Phone.GetValue();
-                result.Phone = phone7558;
+                string companyName = customerRet.CompanyName.GetValue();
+                result.CompanyName = companyName;
             }
             ////Get value of AltPhone
             //if (CustomerRet.AltPhone != null)
@@ -811,6 +811,7 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
             //        string DataExtValue7629 = (string)DataExtRet.DataExtValue.GetValue();
             //    }
             //}
+            result.EditSequence = customerRet.EditSequence.GetValue();
            
             return result;
         }

@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace QuickBooks.Application.Handlers.Customer.GetAllCustomerEvent
 {
     public record GetAllCustomerEventDto(
-        string id,
-        string name, 
-        string phone);
+        string Id,
+        string Name,
+        string CompanyName,
+        string EditSequence);
 }

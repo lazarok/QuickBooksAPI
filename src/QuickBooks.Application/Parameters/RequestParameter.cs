@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickBooks.Application.Filters
+namespace QuickBooks.Application.Parameters
 {
     public class RequestParameter
     {

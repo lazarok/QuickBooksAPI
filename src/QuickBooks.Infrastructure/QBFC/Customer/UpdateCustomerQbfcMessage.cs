@@ -1,35 +1,45 @@
 ﻿using Interop.QBFC15;
 using QuickBooks.Application.Interfaces.QBFC;
 using QuickBooks.Application.Interfaces.QBFC.Customer;
-using QuickBooks.Application.Models.QBFC.Customer.GetCustomerById;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QuickBooks.Application.Models.QBFC.Customer.UpdateCustomer;
 
 namespace QuickBooks.Infrastructure.QBFC.Customer
 {
-    public class GetCustomerByIdQbfcMessage : 
-        IGetCustomerByIdQbfcMessage, IQbfcMessage<GetCustomerByIdRequest,GetCustomerByIdResponse>
+    public class UpdateCustomerQbfcMessage : IUpdateCustomerQbfcMessage, IQbfcMessage<UpdateCustomerRequest, UpdateCustomerResponse>
     {
-        public void BuildQueryRequest(GetCustomerByIdRequest request, IMsgSetRequest requestMsgSet)
+        public void BuildQueryRequest(UpdateCustomerRequest request, IMsgSetRequest requestMsgSet)
         {
-            ICustomerQuery CustomerQueryRq = requestMsgSet.AppendCustomerQueryRq();
-            CustomerQueryRq.ORCustomerListQuery.ListIDList.Add(request.Id);
+            ICustomerMod customerModRq = requestMsgSet.AppendCustomerModRq();
+            customerModRq.ListID.SetValue(request.Id);
+            customerModRq.EditSequence.SetValue(request.EditSequence);
+
+            if (request.CompanyName != default)
+                customerModRq.CompanyName.SetValue(request.CompanyName);
+
+            if (request.Contact != default)
+                customerModRq.Contact.SetValue(request.Contact);
+
+            if (request.Email != default)
+                customerModRq.Email.SetValue(request.Email);
+
+            if (request.IsActive != default)
+                customerModRq.IsActive.SetValue(request.IsActive.Value);
+
+            if (request.Name != default)
+                customerModRq.Name.SetValue(request.Name);
+
+            if (request.Notes != default)
+                customerModRq.Notes.SetValue(request.Notes);
+
+            if (request.Phone != default)
+                customerModRq.Phone.SetValue(request.Phone);
         }
 
-        public GetCustomerByIdResponse WalkQueryResponse(IMsgSetResponse responseMsgSet)
+        public UpdateCustomerResponse WalkQueryResponse(IMsgSetResponse responseMsgSet)
         {
             if (responseMsgSet == null) return default;
             IResponseList responseList = responseMsgSet.ResponseList;
             if (responseList == null) return default;
-
-            if (responseList.Count > 1)
-            {
-                var temp = responseList.GetAt(1);
-            }
-
             //if we sent only one request, there is only one response, we'll walk the list for this sample
             for (int i = 0; i < responseList.Count; i++)
             {
@@ -42,36 +52,24 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
                     {
                         //make sure the response is the type we're expecting
                         ENResponseType responseType = (ENResponseType)response.Type.GetValue();
-                        if (responseType == ENResponseType.rtCustomerQueryRs)
+                        if (responseType == ENResponseType.rtCustomerModRs)
                         {
                             //upcast to more specific type here, this is safe because we checked with response.Type check above
-                            ICustomerRetList customerRetList = (ICustomerRetList)response.Detail;
-
-                            // temp
-                            if(customerRetList.Count > 1)
-                            {
-                                var temp = customerRetList.GetAt(1);
-                            }
-
-                            if (customerRetList.Count == 1)
-                            {
-                                ICustomerRet customerRet = customerRetList.GetAt(0);
-                                var item = WalkCustomerRet(customerRet);
-                                return item;
-                            }
+                            ICustomerRet customerRet = (ICustomerRet)response.Detail;
+                            var item = WalkCustomerRet(customerRet);
+                            return item;
                         }
                     }
                 }
             }
-
             return default;
         }
 
-        GetCustomerByIdResponse WalkCustomerRet(ICustomerRet customerRet)
+        private UpdateCustomerResponse WalkCustomerRet(ICustomerRet customerRet)
         {
             if (customerRet == null) return default;
 
-            var result = new GetCustomerByIdResponse
+            var result = new UpdateCustomerResponse
             {
                 Id = customerRet.ListID?.GetValue(),
                 Name = customerRet.Name?.GetValue(),

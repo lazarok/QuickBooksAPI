@@ -1,7 +1,7 @@
 ﻿using Interop.QBFC15;
 using QuickBooks.Application.Interfaces.QBFC;
 using QuickBooks.Application.Interfaces.QBFC.Customer;
-using QuickBooks.Application.Models.QBFC.Customer.GetCustomerById;
+using QuickBooks.Application.Models.QBFC.Customer.AddCustomer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,26 +10,26 @@ using System.Threading.Tasks;
 
 namespace QuickBooks.Infrastructure.QBFC.Customer
 {
-    public class GetCustomerByIdQbfcMessage : 
-        IGetCustomerByIdQbfcMessage, IQbfcMessage<GetCustomerByIdRequest,GetCustomerByIdResponse>
+    class AddCustomerQbfcMessage : IAddCustomerQbfcMessage, IQbfcMessage<AddCustomerRequest, AddCustomerResponse>
     {
-        public void BuildQueryRequest(GetCustomerByIdRequest request, IMsgSetRequest requestMsgSet)
+        public void BuildQueryRequest(AddCustomerRequest request, IMsgSetRequest requestMsgSet)
         {
-            ICustomerQuery CustomerQueryRq = requestMsgSet.AppendCustomerQueryRq();
-            CustomerQueryRq.ORCustomerListQuery.ListIDList.Add(request.Id);
+            ICustomerAdd customerAddRq = requestMsgSet.AppendCustomerAddRq();
+
+            customerAddRq.Name.SetValue(request.Name);
+            customerAddRq.CompanyName.SetValue(request.CompanyName);
+            customerAddRq.Phone.SetValue(request.Phone);
+            customerAddRq.Email.SetValue(request.Email);
+            customerAddRq.Contact.SetValue(request.Contact);
+            customerAddRq.Notes.SetValue(request.Notes);
+            customerAddRq.IsActive.SetValue(true);
         }
 
-        public GetCustomerByIdResponse WalkQueryResponse(IMsgSetResponse responseMsgSet)
+        public AddCustomerResponse WalkQueryResponse(IMsgSetResponse responseMsgSet)
         {
             if (responseMsgSet == null) return default;
             IResponseList responseList = responseMsgSet.ResponseList;
             if (responseList == null) return default;
-
-            if (responseList.Count > 1)
-            {
-                var temp = responseList.GetAt(1);
-            }
-
             //if we sent only one request, there is only one response, we'll walk the list for this sample
             for (int i = 0; i < responseList.Count; i++)
             {
@@ -42,23 +42,12 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
                     {
                         //make sure the response is the type we're expecting
                         ENResponseType responseType = (ENResponseType)response.Type.GetValue();
-                        if (responseType == ENResponseType.rtCustomerQueryRs)
+                        if (responseType == ENResponseType.rtCustomerAddRs)
                         {
                             //upcast to more specific type here, this is safe because we checked with response.Type check above
-                            ICustomerRetList customerRetList = (ICustomerRetList)response.Detail;
-
-                            // temp
-                            if(customerRetList.Count > 1)
-                            {
-                                var temp = customerRetList.GetAt(1);
-                            }
-
-                            if (customerRetList.Count == 1)
-                            {
-                                ICustomerRet customerRet = customerRetList.GetAt(0);
-                                var item = WalkCustomerRet(customerRet);
-                                return item;
-                            }
+                            ICustomerRet customerRet = (ICustomerRet)response.Detail;
+                            var item = WalkCustomerRet(customerRet);
+                            return item;
                         }
                     }
                 }
@@ -67,11 +56,11 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
             return default;
         }
 
-        GetCustomerByIdResponse WalkCustomerRet(ICustomerRet customerRet)
+        private AddCustomerResponse WalkCustomerRet(ICustomerRet customerRet)
         {
             if (customerRet == null) return default;
 
-            var result = new GetCustomerByIdResponse
+            var result = new AddCustomerResponse
             {
                 Id = customerRet.ListID?.GetValue(),
                 Name = customerRet.Name?.GetValue(),
@@ -81,8 +70,7 @@ namespace QuickBooks.Infrastructure.QBFC.Customer
                 Notes = customerRet.Notes?.GetValue(),
                 Phone = customerRet.Phone?.GetValue(),
                 CreatedAt = customerRet.TimeCreated.GetValue(),
-                IsActive = customerRet.IsActive.GetValue(),
-                EditSequence = customerRet.EditSequence.GetValue()
+                IsActive = customerRet.IsActive.GetValue()
             };
 
             return result;
