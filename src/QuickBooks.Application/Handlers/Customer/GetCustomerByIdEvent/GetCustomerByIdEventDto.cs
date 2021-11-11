@@ -8,7 +8,13 @@ namespace QuickBooks.Application.Handlers.Customer.GetCustomerByIdEvent
 {
     public record GetCustomerByIdEventDto(
         string Id,
-        string Name,
-        string Phone,
-        string EditSequence);
+       string Name,
+       string CompanyName,
+       string Phone,
+       string Email,
+       string Contact,
+       string Notes,
+       bool IsActive,
+       DateTime CreatedAt,
+       string EditSequence);
 }
