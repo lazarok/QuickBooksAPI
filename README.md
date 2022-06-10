@@ -9,5 +9,6 @@
 #
 
 ## Requirements
+* .NET 5
 * Windows 10
 * QuickBooks SDK 15.0
